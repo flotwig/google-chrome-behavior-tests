@@ -18,7 +18,8 @@ const launchBrowser = async () =>
   puppeteer.launch({
     userDataDir: await getNewTempDir(),
     args: [
-      `--proxy-server=http://localhost:${PORT}`
+      `--proxy-server=http://localhost:${PORT}`,
+      `--no-sandbox`
     ]
   })
 

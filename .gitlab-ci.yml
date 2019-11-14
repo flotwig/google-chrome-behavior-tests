@@ -9,7 +9,7 @@ before_script:
   - yarn
 
 test:
-  image: node:12
+  image: buildkite/puppeteer:latest
   stage: test
   script:
     - yarn test
