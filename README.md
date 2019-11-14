@@ -1,27 +1,20 @@
-# base-template
+# google-chrome-behavior-tests
 
 [![Gitlab pipeline status (self-hosted)][ci-badge]][ci]
-[![npm bundle size][size-badge]][npm]
-[![npm][npm-badge]][npm]
 
-[`base-template`][npm] is...
+`google-chrome-behavior-tests` is a collection of tests that use Puppeteer to verify & understand the real-world behavior of Google Chrome.
 
 ## Installation
 
-```shell
-npm i --save base-template
+```
+yarn
 ```
 
-## Usage
-
-```js
-const { baseFn } = require('base-template')
-
+## Running the tests
 
 ```
+yarn test
+```
 
-[ci-badge]: https://img.shields.io/gitlab/pipeline/flotwig/js-base-template?gitlab_url=https%3A%2F%2Fci.chary.us
-[ci]: https://ci.chary.us/flotwig/js-base-template/pipelines
-[size-badge]: https://img.shields.io/bundlephobia/min/base-template
-[npm-badge]: https://img.shields.io/npm/v/base-template
-[npm]: https://www.npmjs.com/package/base-template
+[ci-badge]: https://img.shields.io/gitlab/pipeline/flotwig/google-chrome-behavior-tests?gitlab_url=https%3A%2F%2Fci.chary.us
+[ci]: https://ci.chary.us/flotwig/google-chrome-behavior-tests/pipelines

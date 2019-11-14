@@ -1,29 +1,33 @@
 {
-  "name": "base-template",
+  "name": "google-chrome-behavior-tests",
   "version": "0.0.0-development",
   "description": "...",
   "main": "src/index",
-  "repository": "https://github.com/flotwig/js-base-template",
+  "repository": "https://github.com/flotwig/google-chrome-behavior-tests",
   "author": "Zach Bloomquist <zach@bloomqu.ist>",
   "license": "MIT",
   "private": false,
   "scripts": {
     "test": "yarn build && `npm bin`/jest src/*.spec.js",
-    "build": "tsc",
-    "release": "yarn test && npx semantic-release"
+    "build": "tsc"
   },
   "files": [
     "src/index.js",
     "src/index.ts"
   ],
   "devDependencies": {
-    "@types/chai": "^4.2.4",
+    "@types/express": "^4.17.2",
     "@types/jest": "^24.0.22",
-    "chai": "^4.2.0",
+    "@types/lodash": "^4.14.147",
+    "@types/morgan": "^1.7.37",
+    "@types/puppeteer": "^1.20.2",
     "jest": "^24.9.0",
     "typescript": "^3.7.2"
   },
-  "release": {
-    "repositoryUrl": "https://github.com/flotwig/js-base-template.git"
+  "dependencies": {
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "morgan": "^1.9.1",
+    "puppeteer": "^2.0.0"
   }
 }
