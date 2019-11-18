@@ -28,42 +28,50 @@ describe('Cookies', () => {
   let app: express.Application
 
   ([
-    ['original domain', 8],
-    ['different domain', 7]
-  ]).forEach(([ending, N]) => {
-    it(`sets cookies on a long list of redirects, ending with ${ending}`, async () => {
-      const browser = await launchBrowser()
-      const page = await browser.newPage()
+    ['single Set-Cookie with semicolon-separated multiple cookies', (n: number) => `namefoo${n}=valfoo${n}; namebar${n}=valbar${n}`],
+    ['single Set-Cookie with comma-separated multiple cookies', (n: number) => `namefoo${n}=valfoo${n}, namebar${n}=valbar${n}`],
+    ['multiple Set-Cookie with one cookie each', (n: number) => [`namefoo${n}=valfoo${n}`, `namebar${n}=valbar${n}`]]
+  ]).forEach(([headerType, headerFn]) => {
+    describe(headerType, () => {
+      ([
+        ['original domain', 8],
+        ['different domain', 7]
+      ]).forEach(([ending, N]) => {
+        it(`sets cookies on a long list of redirects, ending with ${ending}`, async () => {
+          const browser = await launchBrowser()
+          const page = await browser.newPage()
 
-      app = express()
-      app.use(morgan('common'))
+          app = express()
+          app.use(morgan('common'))
 
-      const cascadingHandler: express.Handler = function(req, res) {
-        var a, b, n;
-        n = Number(req.query.n);
-        // alternates between domains
-        a = req.query.a;
-        b = req.query.b;
-        res.header("Set-Cookie", [`namefoo${n}=valfoo${n}`, `namebar${n}=valbar${n}`]);
-        if (n > 0) {
-          res.redirect(`${a}/setCascadingCookies?n=${n - 1}&a=${b}&b=${a}`);
-        }
-        return res.send("<html>finished setting cookies</html>");
-      }
+          const cascadingHandler: express.Handler = function(req, res) {
+            var a, b, n;
+            n = Number(req.query.n);
+            // alternates between domains
+            a = req.query.a;
+            b = req.query.b;
+            res.header("Set-Cookie", (<Function>headerFn)(n));
+            if (n > 0) {
+              res.redirect(`${a}/setCascadingCookies?n=${n - 1}&a=${b}&b=${a}`);
+            }
+            return res.send("<html>finished setting cookies</html>");
+          }
 
-      app.get('*', cascadingHandler);
+          app.get('*', cascadingHandler);
 
-      server = allowDestroy(app.listen(PORT))
+          server = allowDestroy(app.listen(PORT))
 
-      await page.goto(`http://site1.foo.com/setCascadingCookies?n=${N}&a=http://site2.bar.net&b=http://site1.foo.com`)
+          await page.goto(`http://site1.foo.com/setCascadingCookies?n=${N}&a=http://site2.bar.net&b=http://site1.foo.com`)
 
-      let cookies = await page.cookies('http://site1.foo.com', 'http://site2.bar.net')
-      cookies = _.reverse(_.sortBy(cookies, _.property('name')))
+          let cookies = await page.cookies('http://site1.foo.com', 'http://site2.bar.net')
+          cookies = _.reverse(_.sortBy(cookies, _.property('name')))
 
-      expect(cookies).toMatchSnapshot()
+          expect(cookies).toMatchSnapshot()
 
-      await browser.close()
-      await new Promise((r) => server.destroy(r))
+          await browser.close()
+          await new Promise((r) => server.destroy(r))
+        })
+      })
     })
   })
 })
