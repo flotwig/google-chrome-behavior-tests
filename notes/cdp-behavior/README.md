@@ -1,6 +1,8 @@
 cdp-behavior
 ====
 
+- CDP `Network` domain: https://chromedevtools.github.io/devtools-protocol/tot/Network/
+
 ## Cache behavior
 
 - A `Network.requestServedFromCache` is NOT emitted for 304 responses. Instead, the `Network.responseReceivedExtraInfo` event is emitted, containing the original HTTP 200 cached response, followed by the `Network.responseReceived` event which contains the actual HTTP 304 response data. See: https://github.com/flotwig/google-chrome-behavior-tests/blob/0ec7452308f0a2fbc638028d954ad61845f36bfb/notes/cdp-behavior/cdp-logs-304.json#L9136-L9226
