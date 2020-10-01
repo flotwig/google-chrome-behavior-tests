@@ -8,8 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "test": "yarn build && `npm bin`/jest src/*.spec.js",
-    "build": "tsc"
+    "test": "jest"
   },
   "files": [
     "src/index.js",
@@ -17,17 +16,17 @@
   ],
   "devDependencies": {
     "@types/express": "^4.17.2",
-    "@types/jest": "^24.0.22",
+    "@types/jest": "^26.0.14",
     "@types/lodash": "^4.14.147",
     "@types/morgan": "^1.7.37",
-    "@types/puppeteer": "^1.20.2",
-    "jest": "^24.9.0",
-    "typescript": "^3.7.2"
-  },
-  "dependencies": {
+    "@types/puppeteer": "^3.0.2",
     "express": "^4.17.1",
+    "jest": "^26.4.2",
     "lodash": "^4.17.15",
     "morgan": "^1.9.1",
-    "puppeteer": "^2.0.0"
-  }
+    "puppeteer": "^5.3.1",
+    "ts-jest": "^26.4.1",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {}
 }
