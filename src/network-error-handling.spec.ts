@@ -46,33 +46,26 @@ describe('Network Error Handling', () => {
       server.destroy(resolve)
     })
     await browser.close()
+    console.log('destroyed and closed')
   })
 
   describe('HTTP 5xx', () => {
-    it('retries on 502 on page visit', async () => {
-      let hitCount = 0
+    const testHttpStatusRetry = (statusCode: number, expectedRetries: number) => {
+      return async () => {
+        let hitCount = 0
 
-      app.get('*', (req, res) => {
-        hitCount++
-        res.sendStatus(502)
-      })
+        app.get('*', (req, res) => {
+          hitCount++
+          res.sendStatus(statusCode)
+        })
 
-      await page.goto('http://foo.com')
+        await page.goto('http://foo.com')
 
-      expect(hitCount).toEqual(1)
-    })
-
-    it('retries on 504 on page visit', async () => {
-      let hitCount = 0
-
-      app.get('*', (req, res) => {
-        hitCount++
-        res.sendStatus(504)
-      })
-
-      await page.goto('http://foo.com')
-
-      expect(hitCount).toEqual(1)
-    })
+        expect(hitCount).toEqual(expectedRetries)
+      }
+    }
+    it('does not retry on 502 on page visit', testHttpStatusRetry(502, 1))
+    it('does not retry on 503 on page visit', testHttpStatusRetry(503, 1))
+    it('does not retry on 504 on page visit', testHttpStatusRetry(504, 1))
   })
 })
